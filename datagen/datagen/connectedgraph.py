@@ -1,9 +1,10 @@
 import random
 
-class randtree:
+class connectedgraph:
 	n = None
+	m = None
 	edges = []
-	wt = []
+	taken = {}
 
 	def generate(self):
 		grouped = [1]
@@ -18,7 +19,26 @@ class randtree:
 			self.edges[u].append(v)
 			del ungrouped[idx_ungrouped]
 			grouped.append(v)
+			if u>v:
+				u,v = v,u
+			self.taken[(u,v)] = 1
 			i+=1
+
+		left = self.m-(self.n-1)
+		i = 0
+		while i<left:
+			u = random.randrange(1,self.n+1)
+			v = random.randrange(1,self.n+1)
+			while v==u:
+				v = random.randrange(1,self.n+1)
+			if u>v:
+				u,v = v,u
+			if (u,v) in self.taken:
+				continue
+			else:
+				self.edges[u].append(v)
+				self.taken[(u,v)] = 1
+				i+=1
 
 	def make_file(self,path):
 		file = open(path,"w+")
@@ -28,8 +48,8 @@ class randtree:
 				file.write(str(i)+" "+str(self.edges[i][j])+"\n")
 
 
-	def __init__(self,n):
+	def __init__(self,n,m):
 		self.n = n
+		self.m = m
 		self.edges = [[] for i in range(n+1)]
 		self.generate()
-

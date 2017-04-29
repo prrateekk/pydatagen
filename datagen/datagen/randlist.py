@@ -23,3 +23,7 @@ class randlist:
 		self.r = r+1
 		self.generate()
 
+
+	def dbg(self):
+		print self.n,self.l,self.r
+
